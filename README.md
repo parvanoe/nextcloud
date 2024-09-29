@@ -35,7 +35,7 @@ The restart can be done with:
 -docker compose up -d 
 
 
-If this is the first time we are accessing Nextcloud (we've never accessed it locally before), we can simply navigate to https://nextcloud.linuxserver-test.duckdns.org and we should see the Nextcloud set up page.
+If this is the first time we are accessing Nextcloud (we've never accessed it locally before), we can simply navigate to https://nextcloud.example.duckdns.org and we should see the Nextcloud set up page.
 We'll fill out the info, use the mariadb user and the password we selected in the environment variable and we'll use mariadb as the Database Host address (container name as dns hostname).
 
 If more information is needed please check this site as I used it for my deployment:
