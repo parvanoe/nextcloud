@@ -2,10 +2,10 @@
 Nextcloud deployment via docker compose 
 
 What we use:
--nextcloud
--mariadb - database
--swag - certificate
--duckdns - domain
+nextcloud
+mariadb - database
+swag - certificate
+duckdns - domain
 
 Pre-requisites 
 
