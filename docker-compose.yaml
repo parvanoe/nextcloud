@@ -7,26 +7,40 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Sofia
+      - NEXTCLOUD_REDIS_HOST=redis
+      - NEXTCLOUD_REDIS_PORT=6379
     volumes:
-      - /path/to/folder:/config
-      - /path/to/folder:/data
+      - /path/to/file:/config
+      - /path/to/file:/data
     depends_on:
       - mariadb
+      - redis
     restart: unless-stopped
+
   mariadb:
     image: lscr.io/linuxserver/mariadb
     container_name: mariadb
     environment:
       - PUID=1000
       - PGID=1000
-      - MYSQL_ROOT_PASSWORD="Password"
+      - MYSQL_ROOT_PASSWORD=password
       - TZ=Europe/Sofia
       - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER="user"
-      - MYSQL_PASSWORD="password"
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
     volumes:
-      - /path/to/folder:/config
+      - /path/to/file:/config
+      - /path/to/file:/var/lib/mysql
     restart: unless-stopped
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    volumes:
+      - /path/to/file:/data
+    restart: always
+    command: redis-server --requirepass momo2709emil
+
   swag:
     image: lscr.io/linuxserver/swag
     container_name: swag
@@ -36,13 +50,28 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Sofia
-      - URL="example.duckdns.org"
+      - URL=example.duckdns.org
       - SUBDOMAINS=wildcard
       - VALIDATION=duckdns
-      - DUCKDNSTOKEN="Token"
+      - DUCKDNSTOKEN=token duckdns
     volumes:
-      - /path/to/folder:/config
+      - /path/to/file:/config
     ports:
       - 443:443
       - 80:80
+    restart: unless-stopped
+
+  duckdns:
+    image: lscr.io/linuxserver/duckdns:latest
+    container_name: duckdns
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Sofia
+      - SUBDOMAINS=example.duckdns.org
+      - TOKEN=token
+      - UPDATE_IP=ipv4
+    volumes:
+      - /path/to/file:/config #optional
     restart: unless-stopped
