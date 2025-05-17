@@ -39,7 +39,7 @@ services:
     volumes:
       - /path/to/file:/data
     restart: always
-    command: redis-server --requirepass momo2709emil
+    command: redis-server --requirepass 
 
   swag:
     image: lscr.io/linuxserver/swag
